@@ -1,8 +1,9 @@
 let intentos= 5;
 let diccionario = ['MESAS', 'TEAMO', 'SILLA', 'JOVEN', 'YISUS']
 const palabrasecreta = diccionario[Math.floor(Math.random() * diccionario.length)];
-
 const BOTON = document.getElementById("guess-button")
+
+BOTON.addEventListener('click', intentar)
 
 const numintentos = document.getElementById('intentos')
 const mainbody = document.body
@@ -18,7 +19,6 @@ contenedorgrid.style.width = '25vh'
 contenedorgrid.style.marginLeft = 'auto';
 contenedorgrid.style.marginRight = 'auto';
 contenedorgrid.style.backgroundColor = 'rgba(255, 253, 208, 0.8)'
-
 
 function leerIntento(){
     let intento = document.getElementById("guess-input");
@@ -39,11 +39,10 @@ function terminar(mensaje){
     BOTON.disabled = true;
     let contenedor = document.getElementById('guesses');
     contenedor.innerHTML = mensaje;
+    RETRY_BUTTON.innerHTML = mensajeretry
 }
-
-
 function definirIntento(INTENTO, palabrasecreta, ROW, GRID){
-    const label = document.getElementById('#milabel')
+    
     if (!INTENTO){
             noEscribioNada("<label>No escribiste nada! :O</label>");
     }
@@ -56,7 +55,7 @@ function definirIntento(INTENTO, palabrasecreta, ROW, GRID){
     for (let i in palabrasecreta){
         const SPAN = document.createElement('span');
         SPAN.className = 'letter';
-        
+
         if (INTENTO[i]===palabrasecreta[i]){ 
             SPAN.innerHTML = INTENTO[i];
             SPAN.style.backgroundColor = '#79b851';
@@ -71,6 +70,9 @@ function definirIntento(INTENTO, palabrasecreta, ROW, GRID){
             SPAN.innerHTML = INTENTO[i];
             SPAN.style.backgroundColor = '#a4aec4';
             SPAN.style.borderRadius = '20px'
+        }
+        if (INTENTO[i]===undefined){
+            SPAN.innerHTML = ' '
         }
        
         ROW.appendChild(SPAN)
@@ -95,11 +97,9 @@ function intentar(){
     ROW.className = 'row';
     
     definirIntento(INTENTO, palabrasecreta, ROW, GRID);
-    numintentos.innerHTML = 'Tienes ' + intentos + ' restantes';
+    numintentos.innerHTML = 'Tienes ' + intentos + ' intentos restantes';
     numintentos.style.marginLeft = 'auto';
     numintentos.style.marginRight = 'auto';
 
 }
 
-
-BOTON.addEventListener('click', intentar)
